@@ -4,10 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-export const PostsScreen = () => {
+export const ProfileScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Публікації</Text>
+      <Text>Профіль</Text>
     </View>
   );
 };
