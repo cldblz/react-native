@@ -11,43 +11,69 @@ import {
   Keyboard,
   StyleSheet,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(true);
   const [displayText, setDisplaytext] = useState("Показати");
+  const [focusEmail, setFocusEmail] = useState(false);
+  const [focusPassword, setFocusPassword] = useState(false);
   useEffect(() => {
     setDisplaytext(showPassword ? "Показати" : "Приховати");
   }, [displayText, showPassword]);
 
+  const navigation = useNavigation();
+
   const handleTogglePassword = (event) => {
     setShowPassword(!showPassword);
   };
+
+  const handleFormSubmit = (values, { resetForm }) => {
+    console.log(values);
+    navigation.navigate("Home");
+    resetForm();
+  };
+  const initialValues = { email: "", password: "" };
   return (
-    <Formik>
-      <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder="Адреса електронної пошти"
-        ></TextInput>
-        <View style={styles.password_wrp}>
+    <Formik initialValues={initialValues} onSubmit={handleFormSubmit}>
+      {({ handleChange, handleSubmit, values }) => (
+        <View style={styles.form}>
           <TextInput
-            style={styles.input}
-            placeholder="Пароль"
-            secureTextEntry={showPassword}
-            //   onChangeText={handleChange("password")}
-            //   value={values.password}
+            style={[
+              styles.input,
+              focusEmail ? styles.inputOnFocus : styles.inputOnBlur,
+            ]}
+            onFocus={() => setFocusEmail(true)}
+            onBlur={() => setFocusEmail(false)}
+            placeholder="Адреса електронної пошти"
+            onChangeText={handleChange("email")}
+            value={values.email}
           ></TextInput>
-          <TouchableOpacity
-            style={styles.password_show}
-            onPress={handleTogglePassword}
-          >
-            <Text>{displayText}</Text>
+          <View style={styles.password_wrp}>
+            <TextInput
+              style={[
+                styles.input,
+                focusPassword ? styles.inputOnFocus : styles.inputOnBlur,
+              ]}
+              onFocus={() => setFocusPassword(true)}
+              onBlur={() => setFocusPassword(false)}
+              placeholder="Пароль"
+              secureTextEntry={showPassword}
+              onChangeText={handleChange("password")}
+              value={values.password}
+            ></TextInput>
+            <TouchableOpacity
+              style={styles.password_show}
+              onPress={handleTogglePassword}
+            >
+              <Text style={styles.display_text}>{displayText}</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.button_title}>Увійти</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.button_title}>Увійти</Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </Formik>
   );
 };
@@ -92,5 +118,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 60,
     transform: [{ translateX: 50 }, { translateY: 17 }],
+  },
+  inputOnFocus: { borderColor: "#FF6C00" },
+  inputOnBlur: { borderColor: "#e8e8e8" },
+  display_text: {
+    color: "#1B4371",
+    fontSize: 16,
   },
 });

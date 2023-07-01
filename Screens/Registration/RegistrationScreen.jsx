@@ -9,15 +9,20 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
+  Platform,
+  TouchableOpacity,
 } from "react-native";
 import AddSvg from "../../assets/svg/AddSvg";
 import { useFonts } from "expo-font";
 import { RegistrationForm } from "./RegistrationForm";
+import { useNavigation } from "@react-navigation/native";
 
 export const RegistrationScreen = () => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../../assets/fonts/Roboto-Regular.ttf"),
   });
+  const navigation = useNavigation();
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -36,11 +41,11 @@ export const RegistrationScreen = () => {
               </View>
               <Text style={styles.title}>Реєстрація</Text>
               <RegistrationForm />
-              <Text>
+              <Text style={styles.login_text}>
                 Вже є акаунт?
-                {/* <LoginRediraction onPress={() => navigation.navigate("Login")}> */}
-                <Text>Увійти</Text>
-                {/* </LoginRediraction> */}
+                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                  <Text style={styles.enter_text}> {""}Увійти</Text>
+                </TouchableOpacity>
               </Text>
             </View>
           </ImageBackground>
@@ -100,5 +105,14 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 30,
     lineHeight: 35,
+  },
+  login_text: {
+    color: "#1B4371",
+  },
+  enter_text: {
+    top: 2,
+    textAlign: "center",
+    color: "#1B4371",
+    textDecorationLine: "underline",
   },
 });

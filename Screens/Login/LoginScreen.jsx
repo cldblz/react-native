@@ -8,7 +8,9 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
+  TouchableOpacity,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { useFonts } from "expo-font";
 import { LoginForm } from "./LoginForm";
@@ -17,28 +19,39 @@ export const LoginScreen = () => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../../assets/fonts/Roboto-Regular.ttf"),
   });
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/images/bgimg.png")}
-        style={styles.bg_wrp}
-      >
-        <View style={styles.form_wrapper}>
-          <Text style={styles.title}>Увійти</Text>
-          <LoginForm />
-          <Text>
-            Немає акаунту?
-            {/* <LoginRediraction onPress={() => navigation.navigate("Login")}> */}
-            <Text>Зареєструватися</Text>
-            {/* </LoginRediraction> */}
-          </Text>
-        </View>
-      </ImageBackground>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.containerkb}
+    >
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../../assets/images/bgimg.png")}
+          style={styles.bg_wrp}
+        >
+          <View style={styles.form_wrapper}>
+            <Text style={styles.title}>Увійти</Text>
+            <LoginForm />
+            <Text style={styles.login_text}>
+              Немає акаунту?
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.enter_text}> {""}Зареєструватися</Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
+        </ImageBackground>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  containerkb: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     width: " 100%",
@@ -67,5 +80,14 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: 30,
     lineHeight: 35,
+  },
+  login_text: {
+    color: "#1B4371",
+  },
+  enter_text: {
+    top: 2,
+    textAlign: "center",
+    color: "#1B4371",
+    textDecorationLine: "underline",
   },
 });
