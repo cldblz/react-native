@@ -25,25 +25,27 @@ export const LoginScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.containerkb}
     >
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../../assets/images/bgimg.png")}
-          style={styles.bg_wrp}
-        >
-          <View style={styles.form_wrapper}>
-            <Text style={styles.title}>Увійти</Text>
-            <LoginForm />
-            <Text style={styles.login_text}>
-              Немає акаунту?
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Registration")}
-              >
-                <Text style={styles.enter_text}> {""}Зареєструватися</Text>
-              </TouchableOpacity>
-            </Text>
-          </View>
-        </ImageBackground>
-      </View>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <ImageBackground
+            source={require("../../assets/images/bgimg.png")}
+            style={styles.bg_wrp}
+          >
+            <View style={styles.form_wrapper}>
+              <Text style={styles.title}>Увійти</Text>
+              <LoginForm />
+              <Text style={styles.login_text}>
+                Немає акаунту?
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Registration")}
+                >
+                  <Text style={styles.enter_text}> {""}Зареєструватися</Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
+          </ImageBackground>
+        </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

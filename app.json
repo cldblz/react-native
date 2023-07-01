@@ -13,7 +13,10 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapApiKey": "AIzaSyBcSosZ1aqeHKosF0Qi038hn8-nnpVkq5E"
+      }
     },
     "android": {
       "adaptiveIcon": {
