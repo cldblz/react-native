@@ -3,18 +3,19 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { auth } from "../firebase/config";
 
 export const UserInfo = () => {
+  const user = auth.currentUser;
+
   return (
     <View style={styles.user_container}>
       <View style={styles.user_info_wrp}>
-        <Image
-          source={require("../assets/images/user.png")}
-          style={styles.user_img}
-        />
+        {/* TODO show photo */}
+        <Image source={user.photoURL} style={styles.user_img} />
         <View style={styles.user_data}>
-          <Text style={styles.user_name}>Natali Romanova</Text>
-          <Text style={styles.user_email}>email@example.com</Text>
+          <Text style={styles.user_name}>{user.displayName}</Text>
+          <Text style={styles.user_email}>{user.email}</Text>
         </View>
       </View>
     </View>
@@ -37,6 +38,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   user_data: {
+    // flex: 1,
+    // paddingLeft: 8,
+    // paddingTop: 12,
     flexDirection: "column",
     justifyContent: "center",
   },

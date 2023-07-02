@@ -12,30 +12,46 @@ import {
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../../redux/auth/authOperation";
+
+import { auth } from "../../firebase/config";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(true);
   const [displayText, setDisplaytext] = useState("Показати");
   const [focusEmail, setFocusEmail] = useState(false);
   const [focusPassword, setFocusPassword] = useState(false);
+  const [state, setState] = useState(initialState);
   useEffect(() => {
     setDisplaytext(showPassword ? "Показати" : "Приховати");
   }, [displayText, showPassword]);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const handleTogglePassword = (event) => {
     setShowPassword(!showPassword);
   };
 
   const handleFormSubmit = (values, { resetForm }) => {
-    console.log(values);
-    navigation.navigate("Home");
-    resetForm();
+    // console.log(values);
+    // navigation.navigate("Home");
+    dispatch(authSignInUser(state));
+    setState(initialState);
+    const user = auth.currentUser;
+    console.log("login form", user);
+    if (user) {
+      navigation.navigate("Home");
+    }
+    // resetForm();
   };
-  const initialValues = { email: "", password: "" };
+  const initialState = {
+    email: "",
+    password: "",
+  };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleFormSubmit}>
+    <Formik initialValues={initialState} onSubmit={handleFormSubmit}>
       {({ handleChange, handleSubmit, values }) => (
         <View style={styles.form}>
           <TextInput
@@ -46,8 +62,10 @@ export const LoginForm = () => {
             onFocus={() => setFocusEmail(true)}
             onBlur={() => setFocusEmail(false)}
             placeholder="Адреса електронної пошти"
-            onChangeText={handleChange("email")}
-            value={values.email}
+            onChangeText={(value) =>
+              setState((prevState) => ({ ...prevState, email: value }))
+            }
+            // value={state.email}
           ></TextInput>
           <View style={styles.password_wrp}>
             <TextInput
@@ -59,8 +77,10 @@ export const LoginForm = () => {
               onBlur={() => setFocusPassword(false)}
               placeholder="Пароль"
               secureTextEntry={showPassword}
-              onChangeText={handleChange("password")}
-              value={values.password}
+              onChangeText={(value) =>
+                setState((prevState) => ({ ...prevState, password: value }))
+              }
+              // value={state.password}
             ></TextInput>
             <TouchableOpacity
               style={styles.password_show}

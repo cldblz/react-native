@@ -12,14 +12,25 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+// TODO remove
+import { Feather } from "@expo/vector-icons";
+
 import { useFonts } from "expo-font";
 import { LoginForm } from "./LoginForm";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../redux/auth/authOperation";
 
 export const LoginScreen = () => {
   const [fontsLoaded] = useFonts({
     Roboto: require("../../assets/fonts/Roboto-Regular.ttf"),
   });
   const navigation = useNavigation();
+
+  // TODO remove
+  const dispatch = useDispatch();
+  const logOut = () => {
+    dispatch(authSignOutUser());
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -32,6 +43,25 @@ export const LoginScreen = () => {
             style={styles.bg_wrp}
           >
             <View style={styles.form_wrapper}>
+              {/* TODO remove */}
+              <Feather
+                name="log-out"
+                size={24}
+                color="#BDBDBD"
+                style={{ marginRight: 21 }}
+                onPress={() => {
+                  logOut();
+                }}
+              />
+              <Feather
+                name="log-out"
+                size={24}
+                color="#BDBDBD"
+                style={{ marginRight: 21 }}
+                onPress={() => {
+                  navigation.navigate("Home");
+                }}
+              />
               <Text style={styles.title}>Увійти</Text>
               <LoginForm />
               <Text style={styles.login_text}>

@@ -27,6 +27,11 @@ import {
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
+import { db } from "../firebase/config";
+import { storage } from "../firebase/config";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+
 export const CreatePostsScreen = () => {
   const [showKeyboard, setShowKeyboard] = useState(false);
   const [hasPermission, setHasPermission] = useState(null);

@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -18,31 +19,33 @@ export default function App() {
     RobotoBold: require("./assets/fonts/Roboto-Bold.ttf"),
   });
   return (
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen
-          name="Registration"
-          component={RegistrationScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <MainStack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </MainStack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <MainStack.Navigator initialRouteName="Login">
+          <MainStack.Screen
+            name="Registration"
+            component={RegistrationScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <MainStack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <MainStack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </MainStack.Navigator>
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </Provider>
   );
 }

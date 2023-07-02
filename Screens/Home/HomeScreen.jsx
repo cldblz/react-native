@@ -6,11 +6,19 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { PostsScreen } from "../PostsScreen";
 import { ProfileScreen } from "../ProfileScreen";
 import { CreatePostsScreen } from "../CreatePostsScreen";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../redux/auth/authOperation";
 
 const Tabs = createBottomTabNavigator();
 
 export const HomeScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const logOut = () => {
+    dispatch(authSignOutUser());
+    navigation.navigate("Login");
+  };
   return (
     <Tabs.Navigator
       screenOptions={({ route, navigation }) => ({
@@ -40,7 +48,7 @@ export const HomeScreen = () => {
                 color="#BDBDBD"
                 style={{ marginRight: 21 }}
                 onPress={() => {
-                  navigation.navigate("Login");
+                  logOut();
                 }}
               />
             );
